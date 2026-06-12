@@ -113,6 +113,9 @@
     <ClCompile Include="BumpField3D.cpp">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClCompile>
+    <ClCompile Include="Wolf.cpp">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprite2D.h">
@@ -203,6 +206,9 @@
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClInclude>
     <ClInclude Include="BumpField3D.h">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    </ClInclude>
+    <ClInclude Include="Wolf.h">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClInclude>
   </ItemGroup>

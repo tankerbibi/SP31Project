@@ -156,12 +156,12 @@ void DrawGame()
 	DrawCamera();
 	{   // 同じライトで表示
 		
-		/*SetLight(Light);
+		SetLight(Light);
 		Field.Draw();
-		SL.Draw();*/
+		SL.Draw();
 	}
 	{  // 個別のライトで表示
-		BumpField.Draw();
+		//BumpField.Draw();
 		/*PPL.Draw();
 		LL.Draw();*/
 	}

@@ -1,12 +1,12 @@
 /*==============================================================================
 
-[Spotlighting.cpp]
+[Wolf.cpp]
 														 Author :
 														 Date   :
 --------------------------------------------------------------------------------
 
 ==============================================================================*/
-#include "Spotlighting.h"
+#include "Wolf.h"
 #include "sprite.h"
 #include "Camera.h"
 #include "texture.h"
@@ -31,21 +31,24 @@
 //=============================================================================
 // 初期化処理
 //=============================================================================
-HRESULT Spotlighting::Init(void)
+HRESULT Wolf::Init(void)
 {
 
 	//シェーダー読み込み
-	CreateVertexShader(&VertexShader, &VertexLayout, "SpotLightingVS.cso");
-	CreatePixelShader(&PixelShader, "SpotLightingPS.cso");
+	CreateVertexShader(&VertexShader, &VertexLayout, "PointPixelLightingVS.cso");
+	CreatePixelShader(&PixelShader, "PointPixelLightingPS.cso");
+
+
+
 
 	//3Dオブジェクト管理構造体の初期化
-	Position = XMFLOAT3(0.0f+0.5f * 2, 0.3f, 0.0f);
+	Position = XMFLOAT3(0.0f+0.5f * 0, 0.3f, 0.0f);
 	Rotate = XMFLOAT3(0.0f, 0.0f, 0.0f);
-	Scale = XMFLOAT3(1.0f, 1.0f, 1.0f);
+	Scale = XMFLOAT3(0.2f, 0.2f, 0.2f);
 
 
 	//モデル読み込み
-	Model = ModelLoad("asset\\model\\wolf.fbx");
+	Model = ModelLoad("asset\\model\\Wolf.fbx");
 
 	// ライト構造体の初期化
 	XMVECTOR dir = XMVectorSet(0.0f, -1.0f, 1.0f, 0.0f);
@@ -57,7 +60,7 @@ HRESULT Spotlighting::Init(void)
 	light.Diffuse = XMFLOAT4(0.9f, 0.9f, 0.9f, 1.0f);
 	// 環境光
 	light.Ambient = XMFLOAT4(0.3f, 0.3f, 0.3f, 1.0f);
-	light.PointLightParam = XMFLOAT4(3.0f, 3.0f, 0.0f, 1.0f);
+	light.PointLightParam = XMFLOAT4(3.0f, 0.0f, 0.0f, 1.0f);
 
 
 	return S_OK;
@@ -66,7 +69,7 @@ HRESULT Spotlighting::Init(void)
 //=============================================================================
 // 終了処理
 //=============================================================================
-void Spotlighting::Finalize(void)
+void Wolf::Finalize(void)
 {
 	//作ったものを解放
 
@@ -82,7 +85,7 @@ void Spotlighting::Finalize(void)
 //=============================================================================
 // 更新処理
 //=============================================================================
-void Spotlighting::Update(void)
+void Wolf::Update(void)
 {
 	if (Keyboard_IsKeyDown(KK_UP))
 	{
@@ -110,25 +113,23 @@ void Spotlighting::Update(void)
 	}
 
 
-	//ImGui::Begin("Spotlighting");
-	//{
-	//	// PointLightParamとは光の届く距離。
-	//	ImGui::SliderFloat("PointLightParam.x", &light.PointLightParam.x, 0.5f, 5.0f, "%.2f");
+	ImGui::Begin("Wolf");
+	{
+		// PointLightParamとは光の届く距離。
+		ImGui::SliderFloat("PointLightParam.x", &light.PointLightParam.x, 0.5f, 5.0f, "%.2f");
 
-	//	ImGui::SliderFloat("PointLightParam.y", &light.PointLightParam.y, 1.0f, 5.0f, "%.1f");
-
-	//	ImGui::SliderFloat("Position.x", &light.Position.x, -2.0f, 2.0f, "%.2f");
-	//	ImGui::SliderFloat("Position.y", &light.Position.y, -2.0f, 2.0f, "%.2f");
-	//	ImGui::SliderFloat("Position.z", &light.Position.z, -2.0f, 2.0f, "%.2f");
-	//}
-	//ImGui::End();
+		ImGui::SliderFloat("Position.x", &light.Position.x, -2.0f, 2.0f, "%.2f");
+		ImGui::SliderFloat("Position.y", &light.Position.y, -2.0f, 2.0f, "%.2f");
+		ImGui::SliderFloat("Position.z", &light.Position.z, -2.0f, 2.0f, "%.2f");
+	}
+	ImGui::End();
 
 }
 
 //=============================================================================
 // 描画処理
 //=============================================================================
-void Spotlighting::Draw(void)
+void Wolf::Draw(void)
 {
 	// 頂点レイアウト設定
 	GetDeviceContext()->IASetInputLayout(VertexLayout);
@@ -136,6 +137,8 @@ void Spotlighting::Draw(void)
 	GetDeviceContext()->VSSetShader(VertexShader, NULL, 0);
 	//ピクセルシェーダーをセット
 	GetDeviceContext()->PSSetShader(PixelShader, NULL, 0);
+
+	SetLight(light);
 
 	{//3Dポリゴン１つずつの処理
 		//テクスチャをセット
