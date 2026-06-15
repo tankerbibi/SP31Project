@@ -18,6 +18,7 @@
 #include "LimLighting.h"
 #include "SpotLighting.h"
 #include "BumpField3D.h"
+#include "CookTorrance.h"
 
 //===============================================
 //グローバル変数
@@ -31,6 +32,7 @@ PointPixelLighting PPL;
 LimLighting LL;
 Spotlighting SL;
 BumpField3D BumpField;
+CookTorrance CT;
 
 static LIGHT Light;
 
@@ -66,6 +68,7 @@ void InitGame()
 	LL.Init();
 	SL.Init();
 	BumpField.Init();
+	CT.Init();
 
 	// ライト構造体の初期化
 	XMVECTOR dir =XMVector3Normalize(XMVectorSet(0.0f, -1.0f, 0.0f, 0.0f));
@@ -77,9 +80,9 @@ void InitGame()
 	// 環境光
 	Light.Ambient = XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f);
 	// x距離 yPow
-	Light.PointLightParam = XMFLOAT4(10.0f, 1.0f, 0.0f, 0.0f);
+	Light.PointLightParam = XMFLOAT4(60.0f, 20.0f, 0.0f, 0.0f);
 	// コーンの角度
-	Light.Angle.x = XMConvertToRadians(30.0f);
+	Light.Angle.x = XMConvertToRadians(90.0f);
 
 	//light.SkyColor = XMFLOAT4(0.6f, 0.0f, 0.0f, 1.0f);  // 赤っぽい
 	//light.GroundColor = XMFLOAT4(0.0f, 0.6f, 0.0f, 1.0f);  // 緑っぽい
@@ -97,6 +100,7 @@ void FinalizeGame()
 	LL.Finalize();
 	SL.Finalize();
 	BumpField.Finalize();
+	CT.Finalize();
 	TextureFinalize();
 }
 
@@ -115,6 +119,7 @@ void UpdateGame()
 		LL.Update();
 		SL.Update();
 		BumpField.Update();
+		CT.Update();
 	}
 
 	ImGui::Begin("Spotlighting");
@@ -128,11 +133,11 @@ void UpdateGame()
 		ImGui::SliderFloat("DiffuseB", &Light.Diffuse.z, 0.0f, 1.0f, "%.1f");
 
 		float angle = XMConvertToDegrees(Light.Angle.x);
-		ImGui::SliderFloat("ConeAngle", &angle, 5.0f, 45.0f, "%.1f");
+		ImGui::SliderFloat("ConeAngle", &angle, 5.0f, 90.0f, "%.1f");
 		Light.Angle.x = XMConvertToRadians(angle);
 
 		// 距離
-		ImGui::SliderFloat("Attenuation", &Light.PointLightParam.x, 0.0f, 10.0f, "%.1f");
+		ImGui::SliderFloat("Attenuation", &Light.PointLightParam.x, 0.0f, 60.0f, "%.1f");
 		// 調整用
 		ImGui::SliderFloat("Pow", &Light.PointLightParam.y, 1.0f, 50.0f, "%.2f");
 	}
@@ -159,6 +164,7 @@ void DrawGame()
 		SetLight(Light);
 		Field.Draw();
 		SL.Draw();
+		CT.Draw();
 	}
 	{  // 個別のライトで表示
 		//BumpField.Draw();
