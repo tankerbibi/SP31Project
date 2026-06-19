@@ -19,6 +19,7 @@
 #include "SpotLighting.h"
 #include "BumpField3D.h"
 #include "CookTorrance.h"
+#include "DisneyPBR.h"
 
 //===============================================
 //グローバル変数
@@ -33,6 +34,7 @@ LimLighting LL;
 Spotlighting SL;
 BumpField3D BumpField;
 CookTorrance CT;
+DisneyPBR DPBR;
 
 static LIGHT Light;
 
@@ -69,6 +71,7 @@ void InitGame()
 	SL.Init();
 	BumpField.Init();
 	CT.Init();
+	DPBR.Init();
 
 	// ライト構造体の初期化
 	XMVECTOR dir =XMVector3Normalize(XMVectorSet(0.0f, -1.0f, 0.0f, 0.0f));
@@ -101,6 +104,7 @@ void FinalizeGame()
 	SL.Finalize();
 	BumpField.Finalize();
 	CT.Finalize();
+	DPBR.Finalize();
 	TextureFinalize();
 }
 
@@ -120,6 +124,7 @@ void UpdateGame()
 		SL.Update();
 		BumpField.Update();
 		CT.Update();
+		DPBR.Update();
 	}
 
 	ImGui::Begin("Spotlighting");
@@ -165,6 +170,7 @@ void DrawGame()
 		Field.Draw();
 		SL.Draw();
 		CT.Draw();
+		DPBR.Draw();
 	}
 	{  // 個別のライトで表示
 		//BumpField.Draw();

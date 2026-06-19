@@ -22,7 +22,7 @@ float CalculateBeckmann(float smooth, float nh)
 }
 
 // フレネル反射光
-float calculateFresnel (float metal, float hv)
+float CalculateFresnel (float metal, float hv)
 {
     metal = lerp(0.04, 1.0, metal);
     return metal + (1.0 - metal) * pow(1.0 - hv, 5.0);
