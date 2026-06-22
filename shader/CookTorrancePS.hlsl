@@ -54,7 +54,7 @@ void main(in PS_IN In, out float4 outDiffuse : SV_TARGET)
     // 面の粗さ
     float D = CalculateBeckmann(smooth, nh);
     float G = CalculateGeometricDamping(nh, nv, nl, vh);
-    float F = calculateFresnel(metallic, dot(lv.xyz, halfv));
+    float F = CalculateFresnel(metallic, dot(lv.xyz, halfv));
     
     specular = max(0.0, F * D * G / nv) * albedoColor.rgb;
     

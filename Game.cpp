@@ -74,18 +74,18 @@ void InitGame()
 	DPBR.Init();
 
 	// ライト構造体の初期化
-	XMVECTOR dir =XMVector3Normalize(XMVectorSet(0.0f, -1.0f, 0.0f, 0.0f));
+	XMVECTOR dir =XMVector4Normalize(XMVectorSet(0.0f, -1.0f, 0.0f, 0.0f));
 	// 光のベクトル
 	XMStoreFloat4(&Light.Direction, dir);
-	Light.Position = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
+	Light.Position = XMFLOAT4(0.0f, 1.0f, 0.0f, 0.0f);
 	// 光の色
-	Light.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	Light.Diffuse = XMFLOAT4(0.9f, 0.9f, 0.9f, 1.0f);
 	// 環境光
-	Light.Ambient = XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f);
+	Light.Ambient = XMFLOAT4(0.3f, 0.3f, 0.3f, 1.0f);
 	// x距離 yPow
-	Light.PointLightParam = XMFLOAT4(60.0f, 20.0f, 0.0f, 0.0f);
+	Light.PointLightParam = XMFLOAT4(2000.0f, 20.0f, 0.0f, 0.0f);
 	// コーンの角度
-	Light.Angle.x = XMConvertToRadians(90.0f);
+	//Light.Angle.x = XMConvertToRadians(90.0f);
 
 	//light.SkyColor = XMFLOAT4(0.6f, 0.0f, 0.0f, 1.0f);  // 赤っぽい
 	//light.GroundColor = XMFLOAT4(0.0f, 0.6f, 0.0f, 1.0f);  // 緑っぽい
@@ -168,12 +168,13 @@ void DrawGame()
 		
 		SetLight(Light);
 		Field.Draw();
-		SL.Draw();
-		CT.Draw();
+		//SL.Draw();
+		//CT.Draw();
 		DPBR.Draw();
 	}
 	{  // 個別のライトで表示
-		//BumpField.Draw();
+		// 凸凹地面
+		// BumpField.Draw();
 		/*PPL.Draw();
 		LL.Draw();*/
 	}

@@ -17,6 +17,11 @@ class Camera
 		float		Farclip;		//どこまで遠くが見えるか
 		float		Rotation;
 
+		// フリーカメラ用の追加変数
+		float		Yaw;			// 左右の向き（ラジアン）
+		float		Pitch;			// 上下の向き（ラジアン）
+		float		MoveSpeed;		// 移動速度
+		float		MouseSensitivity;	// マウス感度
 };
 
 void	InitCamera();

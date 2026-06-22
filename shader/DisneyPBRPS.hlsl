@@ -87,7 +87,7 @@ float CalculateCookTorranceSpecular(float3 L, float3 V, float3 N, float smooth, 
     // F項をSchlick近似を用いて計算する
     float F = CalculateFresnel(metallic, vh);
     // G項を求める
-    float G = CalculateGeometricDamping(nh, nv, nl, nh);
+    float G = CalculateGeometricDamping(nh, nv, nl, vh);
     // m項を求める
     float m = PI * nv * nh;
     // ここまで求めた値を利用してCook-Torranceモデルの鏡面反射を求める

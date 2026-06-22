@@ -35,38 +35,37 @@ HRESULT DisneyPBR::Init(void)
 {
 
 	//シェーダー読み込み
-	CreateVertexShader(&VertexShader, &VertexLayout, "CookTorranceVS.cso");
-	CreatePixelShader(&PixelShader, "CookTorrancePS.cso");
+	CreateVertexShader(&VertexShader, &VertexLayout, "DisneyPBRVS.cso");
+	CreatePixelShader(&PixelShader, "DisneyPBRPS.cso");
+
+	TexIDRoughness = TextureLoad(L"asset\\texture\\Roughness.jpg");
+	TexIDMetalness = TextureLoad(L"asset\\texture\\Metalness.jpg");
 
 	//3Dオブジェクト管理構造体の初期化
 	Position = XMFLOAT3(0.0f + 0.5f * 2, 0.5f, 0.0f);
 	Rotate = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	Scale = XMFLOAT3(0.2f, 0.2f, 0.2f);
 
-
 	//モデル読み込み
-	Model = ModelLoad("asset\\model\\model.fbx");
+	Model = ModelLoad("asset\\model\\wolf.fbx");
 
-	// ライト構造体の初期化
-	XMVECTOR dir = XMVectorSet(0.0f, -1.0f, 1.0f, 0.0f);
-	dir = XMVector3Normalize(dir);
-	// 光のベクトルa
-	XMStoreFloat4(&light.Direction, dir);
-	light.Position = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
-	// 光の色
-	light.Diffuse = XMFLOAT4(0.9f, 0.9f, 0.9f, 1.0f);
-	// 環境光
-	light.Ambient = XMFLOAT4(0.3f, 0.3f, 0.3f, 1.0f);
-	light.PointLightParam = XMFLOAT4(3.0f, 3.0f, 0.0f, 1.0f);
+	//// ライト構造体の初期化
+	//XMVECTOR dir = XMVectorSet(0.0f, -1.0f, 1.0f, 0.0f);
+	//dir = XMVector3Normalize(dir);
+	//// 光のベクトルa
+	//XMStoreFloat4(&light.Direction, dir);
+
+	//light.Position = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
+	//// 光の色
+	//light.Diffuse = XMFLOAT4(0.9f, 0.9f, 0.9f, 1.0f);
+	//// 環境光
+	//light.Ambient = XMFLOAT4(0.3f, 0.3f, 0.3f, 1.0f);
+	//light.PointLightParam = XMFLOAT4(3.0f, 3.0f, 0.0f, 1.0f);
 
 	Parameter = XMFLOAT4(0, 0, 0, 0);
 	Parameter.x = 0.5f;
 	Parameter.y = 0.5f;
 	Parameter.z = 3.0f;
-
-	TexIDRoughness = TextureLoad(L"aaset\\texture\\Roughness.jpg");
-	TexIDMetalness = TextureLoad(L"aaset\\texture\\Metalness.jpg");
-
 	return S_OK;
 }
 
@@ -117,10 +116,9 @@ void DisneyPBR::Update(void)
 	}
 
 	ImGui::SetNextWindowSize(ImVec2(300, 500), ImGuiCond_FirstUseEver);
-	ImGui::Begin("TEST");
+	ImGui::Begin("DisneyPBR");
 	{
-		ImGui::SliderFloat("Roughness", &Parameter.x, 0.0f, 1.0f, "%.3f");
-		ImGui::SliderFloat("Metallic", &Parameter.y, 0.0f, 1.0f, "%.3f");
+		ImGui::SliderFloat("Light", &Parameter.z, 1.0f, 15.0f, "%.0f");
 	}
 	ImGui::End();
 
@@ -144,14 +142,14 @@ void DisneyPBR::Update(void)
 //=============================================================================
 void DisneyPBR::Draw(void)
 {
-	// Parameterをシェーダーへ送る
-	SetParameter(Parameter);
 	// 頂点レイアウト設定
 	GetDeviceContext()->IASetInputLayout(VertexLayout);
 	//頂点シェーダーをセット
 	GetDeviceContext()->VSSetShader(VertexShader, NULL, 0);
 	//ピクセルシェーダーをセット
 	GetDeviceContext()->PSSetShader(PixelShader, NULL, 0);
+	// Parameterをシェーダーへ送る
+	SetParameter(Parameter);
 
 	{//3Dポリゴン１つずつの処理
 		//テクスチャをセット
@@ -159,8 +157,6 @@ void DisneyPBR::Draw(void)
 		GetDeviceContext()->PSSetShaderResources(1, 1, &tex);
 		tex = GetTexture(TexIDMetalness);
 		GetDeviceContext()->PSSetShaderResources(2, 1, &tex);
-
-
 
 		//平行移動行列作成
 		XMMATRIX	TranslationMatrix =

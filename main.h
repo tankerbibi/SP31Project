@@ -55,3 +55,6 @@ using namespace DirectX;
 // プロトタイプ宣言
 //*****************************************************************************
 
+
+int GetMouseWheelDelta();
+void ClearMouseWheelDelta();

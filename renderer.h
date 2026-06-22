@@ -1,18 +1,6 @@
-/*==============================================================================
-
-   レンダリング管理[renderer.h]
-														 Author :
-														 Date   :
---------------------------------------------------------------------------------
-
-==============================================================================*/
 #pragma once
 
 #include "main.h"
-
-//*********************************************************
-// 構造体
-//*********************************************************
 
 // 頂点構造体
 struct VERTEX_3D
@@ -52,9 +40,6 @@ struct LIGHT
 	XMFLOAT4 Angle;
 };
 
-//*****************************************************************************
-// プロトタイプ宣言
-//*****************************************************************************
 HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow);
 void FinalizeRenderer(void);
 
@@ -86,4 +71,3 @@ void CreateVertexShader(ID3D11VertexShader** VertexShader, ID3D11InputLayout** V
 void CreatePixelShader(ID3D11PixelShader** PixelShader, const char* FileName);
 
 void SetLight(LIGHT Light);
-

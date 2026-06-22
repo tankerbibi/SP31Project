@@ -41,6 +41,7 @@ void	Draw(void);
 int	g_CountFPS;							//FPSカウンター
 char g_DebugStr[2048] = WINDOW_CAPTION;	//表示文字列設定
 #endif
+int g_MouseWheelDelta = 0;
 
 //=====================================
 //メイン関数
@@ -184,6 +185,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		case WM_SYSKEYUP:
 			Keyboard_ProcessMessage(uMsg, wParam, lParam);
 			break;
+		case WM_MOUSEWHEEL:
+			g_MouseWheelDelta += GET_WHEEL_DELTA_WPARAM(wParam);
+			break;
 		case WM_KEYDOWN:	//キーが押された
 			if (wParam == VK_ESCAPE)//押されたのはESCキー
 			{
@@ -302,4 +306,12 @@ void	Draw(void)
 
 }
 
+int GetMouseWheelDelta()
+{
+	return g_MouseWheelDelta;
+}
 
+void ClearMouseWheelDelta()
+{
+	g_MouseWheelDelta = 0;
+}
