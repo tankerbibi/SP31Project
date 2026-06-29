@@ -1,6 +1,6 @@
 #include "Main.h"
+#include "renderer.h"
 #include "Manager.h"
-#include "Renderer.h"
 #include "Sprite.h"
 #include "keyboard.h"
 #include "Game.h"

@@ -1,7 +1,7 @@
-#include "Main.h"
-#include "Renderer.h"
+#include "main.h"
+#include "renderer.h"
 #include "Manager.h"
-#include "Sprite.h"
+#include "sprite.h"
 #include "Game.h"
 #include "keyboard.h"
 #include "Camera.h"
@@ -12,6 +12,7 @@
 #include "Building.h"
 #include "Pedestal.h"
 #include "DioramaFloor.h"
+#include "Toon1.h"
 
 Camera       CameraObject;
 Sprite2D     Test2d;
@@ -20,6 +21,7 @@ Wolf         WolfObj;
 Building     BuildingObj;
 Pedestal     PedestalObj;
 DioramaFloor DioramaFloorObj;
+Toon1 toon1;
 
 static LIGHT Light;
 static bool  pause = false;
@@ -37,6 +39,8 @@ void InitGame()
     BuildingObj.Init();
     PedestalObj.Init();
     DioramaFloorObj.Init();
+    toon1.Init();
+
 
     XMVECTOR dir = XMVector4Normalize(XMVectorSet(0.3f, -1.0f, 0.5f, 0.0f));
     XMStoreFloat4(&Light.Direction, dir);
@@ -54,6 +58,7 @@ void FinalizeGame()
     BuildingObj.Finalize();
     PedestalObj.Finalize();
     DioramaFloorObj.Finalize();
+    toon1.Finalize();
     TextureFinalize();
 }
 
@@ -67,6 +72,7 @@ void UpdateGame()
         BuildingObj.Update();
         PedestalObj.Update();
         DioramaFloorObj.Update();
+        toon1.Update();
     }
 
     ImGui::Begin("Global Light");
@@ -94,4 +100,5 @@ void DrawGame()
     BuildingObj.Draw();
     PedestalObj.Draw();
     WolfObj.Draw();
+    toon1.Draw();
 }
