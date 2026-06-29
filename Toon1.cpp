@@ -121,6 +121,7 @@ void Toon1::Update(void)
 	{
 		ImGui::SliderFloat("Level-1", &Parameter.x, 0.0f, 1.0f, "%.2f");
 		ImGui::SliderFloat("Level-2", &Parameter.y, 0.0f, 1.0f, "%.2f");
+		ImGui::SliderFloat("Edge", &Parameter.z, 0.0f, -0.6f, "%.2f");
 	}
 	ImGui::End();
 

@@ -49,9 +49,11 @@ void main(in PS_IN In, out float4 outDiffuse : SV_TARGET)
     ///////////////////////////////////////////
     float4 eyev = In.WorldPosition - CameraPosition;
     eyev = normalize(eyev);
+    // 視線とピクセル法線の内積
     float d = dot(normal, eyev);
-    if(d > -0.3f)
+    if(d > Parameter.z)
     {
+        // 明度を落とす
         outDiffuse.rgb *= 0.3f;
     }
 }
