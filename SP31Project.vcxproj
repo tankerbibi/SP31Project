@@ -134,6 +134,7 @@
     <None Include="DirectXTex.inl" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Building.cpp" />
     <ClCompile Include="BumpField3D.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CookTorrance.cpp" />
@@ -156,6 +157,8 @@
     <ClCompile Include="PixelDirectionalLighting.cpp" />
     <ClCompile Include="PixelLightingBlinnPhong.cpp" />
     <ClCompile Include="PointPixelLighting.cpp" />
+    <ClCompile Include="DioramaFloor.cpp" />
+    <ClCompile Include="Pedestal.cpp" />
     <ClCompile Include="PolygonModel.cpp" />
     <ClCompile Include="SpotLighting.cpp" />
     <ClCompile Include="Sprite2D.cpp" />
@@ -166,6 +169,7 @@
     <ClCompile Include="Wolf.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Building.h" />
     <ClInclude Include="BumpField3D.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CookTorrance.h" />
@@ -191,6 +195,8 @@
     <ClInclude Include="PixelDirectionalLighting.h" />
     <ClInclude Include="PixelLightingBlinnPhong.h" />
     <ClInclude Include="PointPixelLighting.h" />
+    <ClInclude Include="DioramaFloor.h" />
+    <ClInclude Include="Pedestal.h" />
     <ClInclude Include="PolygonModel.h" />
     <ClInclude Include="SpotLighting.h" />
     <ClInclude Include="Sprite2D.h" />

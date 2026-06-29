@@ -6,176 +6,92 @@
 #include "keyboard.h"
 #include "Camera.h"
 #include "texture.h"
-#include "field3D.h"
 
 #include "Sprite2D.h"
-#include "PolygonModel.h"
-#include "VertexDirectionalLighting.h"
-#include "PixelDirectionalLighting.h"
-#include "PixelLightingBlinnPhong.h"
-#include "HemiSphereLighting.h"
-#include "PointPixelLighting.h"
-#include "LimLighting.h"
-#include "SpotLighting.h"
-#include "BumpField3D.h"
-#include "CookTorrance.h"
-#include "DisneyPBR.h"
+#include "Wolf.h"
+#include "Building.h"
+#include "Pedestal.h"
+#include "DioramaFloor.h"
 
-//===============================================
-//グローバル変数
- 
-Camera		CameraObject;
-Sprite2D	Test2d;
+Camera       CameraObject;
+Sprite2D     Test2d;
 
-Field3D Field;
-
-PointPixelLighting PPL;
-LimLighting LL;
-Spotlighting SL;
-BumpField3D BumpField;
-CookTorrance CT;
-DisneyPBR DPBR;
+Wolf         WolfObj;
+Building     BuildingObj;
+Pedestal     PedestalObj;
+DioramaFloor DioramaFloorObj;
 
 static LIGHT Light;
+static bool  pause = false;
 
+void SetPause(bool flg) { pause = flg; }
+bool GetPause()         { return pause; }
 
-//ポーズフラグ
-static	bool	pause = false;
-
-//===============================================
-//ポーズフラグセット
-void	SetPause(bool flg)
-{
-	pause = flg;
-}
-//===============================================
-//ポーズフラグ取得
-bool	GetPause()
-{
-	return pause;
-}
-
-//===============================================
-//ゲームシーン初期化
 void InitGame()
 {
-	TextureInitialize(GetDevice());
-	InitCamera();
+    TextureInitialize(GetDevice());
+    InitCamera();
 
-	Test2d.Init();
+    Test2d.Init();
+    WolfObj.Init();
+    BuildingObj.Init();
+    PedestalObj.Init();
+    DioramaFloorObj.Init();
 
-	Field.Init();
-
-	PPL.Init();
-	LL.Init();
-	SL.Init();
-	BumpField.Init();
-	CT.Init();
-	DPBR.Init();
-
-	// ライト構造体の初期化
-	XMVECTOR dir =XMVector4Normalize(XMVectorSet(0.0f, -1.0f, 0.0f, 0.0f));
-	// 光のベクトル
-	XMStoreFloat4(&Light.Direction, dir);
-	Light.Position = XMFLOAT4(0.0f, 1.0f, 0.0f, 0.0f);
-	// 光の色
-	Light.Diffuse = XMFLOAT4(0.9f, 0.9f, 0.9f, 1.0f);
-	// 環境光
-	Light.Ambient = XMFLOAT4(0.3f, 0.3f, 0.3f, 1.0f);
-	// x距離 yPow
-	Light.PointLightParam = XMFLOAT4(2000.0f, 20.0f, 0.0f, 0.0f);
-	// コーンの角度
-	//Light.Angle.x = XMConvertToRadians(90.0f);
-
-	//light.SkyColor = XMFLOAT4(0.6f, 0.0f, 0.0f, 1.0f);  // 赤っぽい
-	//light.GroundColor = XMFLOAT4(0.0f, 0.6f, 0.0f, 1.0f);  // 緑っぽい
+    XMVECTOR dir = XMVector4Normalize(XMVectorSet(0.3f, -1.0f, 0.5f, 0.0f));
+    XMStoreFloat4(&Light.Direction, dir);
+    Light.Position        = XMFLOAT4(0.0f, 2.0f, -1.0f, 0.0f);
+    Light.Diffuse         = XMFLOAT4(0.9f, 0.9f, 0.9f, 1.0f);
+    Light.Ambient         = XMFLOAT4(0.3f, 0.3f, 0.3f, 1.0f);
+    Light.PointLightParam = XMFLOAT4(10.0f, 2.0f, 0.0f, 0.0f);
 }
 
-//===============================================
-//ゲームシーン終了
 void FinalizeGame()
 {
-	FinalizeCamera();
-	Test2d.Finalize();
-
-	Field.Finalize();
-	PPL.Finalize();
-	LL.Finalize();
-	SL.Finalize();
-	BumpField.Finalize();
-	CT.Finalize();
-	DPBR.Finalize();
-	TextureFinalize();
+    FinalizeCamera();
+    Test2d.Finalize();
+    WolfObj.Finalize();
+    BuildingObj.Finalize();
+    PedestalObj.Finalize();
+    DioramaFloorObj.Finalize();
+    TextureFinalize();
 }
 
-//===============================================
-//ゲームシーン更新
 void UpdateGame()
 {
+    if (!GetPause())
+    {
+        UpdateCamera();
+        Test2d.Update();
+        WolfObj.Update();
+        BuildingObj.Update();
+        PedestalObj.Update();
+        DioramaFloorObj.Update();
+    }
 
-	if (GetPause() == false)//ポーズ中でなければ更新実行
-	{
-		UpdateCamera();
-		Test2d.Update();
-
-		Field.Update();
-		PPL.Update();
-		LL.Update();
-		SL.Update();
-		BumpField.Update();
-		CT.Update();
-		DPBR.Update();
-	}
-
-	ImGui::Begin("Spotlighting");
-	{
-		ImGui::SliderFloat("Position.x", &Light.Position.x, -2.0f, 2.0f, "%.2f");
-		ImGui::SliderFloat("Position.y", &Light.Position.y, -2.0f, 2.0f, "%.2f");
-		ImGui::SliderFloat("Position.z", &Light.Position.z, -2.0f, 2.0f, "%.2f");
-
-		ImGui::SliderFloat("DiffuseR", &Light.Diffuse.x, 0.0f, 1.0f, "%.1f");
-		ImGui::SliderFloat("DiffuseG", &Light.Diffuse.y, 0.0f, 1.0f, "%.1f");
-		ImGui::SliderFloat("DiffuseB", &Light.Diffuse.z, 0.0f, 1.0f, "%.1f");
-
-		float angle = XMConvertToDegrees(Light.Angle.x);
-		ImGui::SliderFloat("ConeAngle", &angle, 5.0f, 90.0f, "%.1f");
-		Light.Angle.x = XMConvertToRadians(angle);
-
-		// 距離
-		ImGui::SliderFloat("Attenuation", &Light.PointLightParam.x, 0.0f, 60.0f, "%.1f");
-		// 調整用
-		ImGui::SliderFloat("Pow", &Light.PointLightParam.y, 1.0f, 50.0f, "%.2f");
-	}
-	ImGui::End();
-
+    ImGui::Begin("Global Light");
+    {
+        ImGui::SliderFloat("Pos X",     &Light.Position.x, -5.0f, 5.0f, "%.2f");
+        ImGui::SliderFloat("Pos Y",     &Light.Position.y,  0.0f, 8.0f, "%.2f");
+        ImGui::SliderFloat("Pos Z",     &Light.Position.z, -5.0f, 5.0f, "%.2f");
+        ImGui::SliderFloat("Diffuse R", &Light.Diffuse.x,   0.0f, 1.0f, "%.2f");
+        ImGui::SliderFloat("Diffuse G", &Light.Diffuse.y,   0.0f, 1.0f, "%.2f");
+        ImGui::SliderFloat("Diffuse B", &Light.Diffuse.z,   0.0f, 1.0f, "%.2f");
+    }
+    ImGui::End();
 }
 
-//===============================================
-//ゲームシーン描画
 void DrawGame()
 {
+    SetWorldViewProjection2D();
+    //Test2d.Draw();
 
-	// 2D用マトリクス設定
-	{
-		SetWorldViewProjection2D();
-		Test2d.Draw();
-	}
+    SetDepthEnable(true);
+    DrawCamera();
+    SetLight(Light);
 
-	// 3D用マトリクス設定
-	SetDepthEnable(true); //  奥行き処理有効
-	DrawCamera();
-	{   // 同じライトで表示
-		
-		SetLight(Light);
-		Field.Draw();
-		//SL.Draw();
-		//CT.Draw();
-		DPBR.Draw();
-	}
-	{  // 個別のライトで表示
-		// 凸凹地面
-		// BumpField.Draw();
-		/*PPL.Draw();
-		LL.Draw();*/
-	}
+    DioramaFloorObj.Draw();
+    BuildingObj.Draw();
+    PedestalObj.Draw();
+    WolfObj.Draw();
 }

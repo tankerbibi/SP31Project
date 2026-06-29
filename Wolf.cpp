@@ -26,7 +26,7 @@
 //*****************************************************************************
 // グローバル変数
 //*****************************************************************************
-//カメラは複数あるとダメなので外す
+//カメラは分離すると駄目なので外す
 
 //=============================================================================
 // 初期化処理
@@ -35,16 +35,16 @@ HRESULT Wolf::Init(void)
 {
 
 	//シェーダー読み込み
-	CreateVertexShader(&VertexShader, &VertexLayout, "PointPixelLightingVS.cso");
-	CreatePixelShader(&PixelShader, "PointPixelLightingPS.cso");
+	CreateVertexShader(&VertexShader, &VertexLayout, "LimLightingVS.cso");
+	CreatePixelShader(&PixelShader, "LimLightingPS.cso");
 
 
 
 
 	//3Dオブジェクト管理構造体の初期化
-	Position = XMFLOAT3(0.0f+0.5f * 0, 0.3f, 0.0f);
+	Position = XMFLOAT3(0.0f, 0.4f, 0.5f); // 台座の上
 	Rotate = XMFLOAT3(0.0f, 0.0f, 0.0f);
-	Scale = XMFLOAT3(0.2f, 0.2f, 0.2f);
+	Scale = XMFLOAT3(0.32f, 0.32f, 0.32f);
 
 
 	//モデル読み込み
@@ -53,14 +53,14 @@ HRESULT Wolf::Init(void)
 	// ライト構造体の初期化
 	XMVECTOR dir = XMVectorSet(0.0f, -1.0f, 1.0f, 0.0f);
 	dir = XMVector3Normalize(dir);
-	// 光のベクトルa
+	// 光のベクトル
 	XMStoreFloat4(&light.Direction, dir);
 	light.Position = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
 	// 光の色
-	light.Diffuse = XMFLOAT4(0.9f, 0.9f, 0.9f, 1.0f);
+	light.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	// 環境光
-	light.Ambient = XMFLOAT4(0.3f, 0.3f, 0.3f, 1.0f);
-	light.PointLightParam = XMFLOAT4(3.0f, 0.0f, 0.0f, 1.0f);
+	light.Ambient = XMFLOAT4(0.55f, 0.55f, 0.55f, 1.0f);
+	light.PointLightParam = XMFLOAT4(3.0f, 3.0f, 0.0f, 1.0f); // x=光の到達距離, y=リム指数(0だとモデル全体が真っ白になる)
 
 
 	return S_OK;
@@ -71,7 +71,7 @@ HRESULT Wolf::Init(void)
 //=============================================================================
 void Wolf::Finalize(void)
 {
-	//作ったものを解放
+	//使ったものを解放
 
 	VertexLayout->Release();
 	VertexShader->Release();
@@ -115,8 +115,11 @@ void Wolf::Update(void)
 
 	ImGui::Begin("Wolf");
 	{
-		// PointLightParamとは光の届く距離。
-		ImGui::SliderFloat("PointLightParam.x", &light.PointLightParam.x, 0.5f, 5.0f, "%.2f");
+		// 明るさ・リムの強さ・光源位置を調整するスライダー
+		ImGui::SliderFloat3("Diffuse (direct light)", &light.Diffuse.x, 0.0f, 2.0f, "%.2f");
+		ImGui::SliderFloat3("Ambient (base bright)",  &light.Ambient.x, 0.0f, 1.0f, "%.2f");
+		ImGui::SliderFloat("Rim Power (PLP.y)",       &light.PointLightParam.y, 0.5f, 8.0f, "%.2f");
+		ImGui::SliderFloat("Light Reach (PLP.x)",     &light.PointLightParam.x, 0.5f, 5.0f, "%.2f");
 
 		ImGui::SliderFloat("Position.x", &light.Position.x, -2.0f, 2.0f, "%.2f");
 		ImGui::SliderFloat("Position.y", &light.Position.y, -2.0f, 2.0f, "%.2f");
@@ -139,8 +142,7 @@ void Wolf::Draw(void)
 	GetDeviceContext()->PSSetShader(PixelShader, NULL, 0);
 
 	SetLight(light);
-
-	{//3Dポリゴン１つずつの処理
+	{//3Dポリゴン1枚の処理
 		//テクスチャをセット
 		ID3D11ShaderResourceView* tex = GetTexture(TexID);
 		GetDeviceContext()->PSSetShaderResources(0, 1, &tex);
@@ -166,7 +168,7 @@ void Wolf::Draw(void)
 				Scale.y,
 				Scale.z
 			);
-		//ワールド行列作成 ※乗算の順番に注意
+		//ワールド行列作成 かけるZの順番に注意
 		XMMATRIX	WorldMatrix =
 			ScalingMatrix *
 			RotationMatrix *

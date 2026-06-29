@@ -75,7 +75,7 @@ HRESULT BumpField3D::Init(void)
 
 	//シェーダー読み込み
 	CreateVertexShader(&VertexShader, &VertexLayout, "BumpVS.cso");
-	CreatePixelShader(&PixelShader, "BumpPS.cso");
+	CreatePixelShader(&PixelShader, "	.cso");
 
 	//頂点バッファ作成
 	{

@@ -4,12 +4,12 @@
 #include	"Camera.h"
 #include	"keyboard.h"
 
-Camera		g_Camera;	//ƒJƒƒ‰ŠÇ—\‘¢‘Ì
+Camera		g_Camera;	//ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Ç—ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½
 
 
 void	InitCamera()
 {
-	g_Camera.Position = XMFLOAT3(0.0f, 1.0f, -5.0f);
+	g_Camera.Position = XMFLOAT3(0.0f, 0.9f, -2.6f);
 	g_Camera.UpVector = XMFLOAT3(0.0f, 1.0f, 0.0f);
 	g_Camera.AtPosition = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	g_Camera.Fov = 45.0f;
@@ -19,9 +19,9 @@ void	InitCamera()
 	g_Camera.Yaw = 0.0f;
 	g_Camera.Pitch = 0.0f;
 
-	// --- Š´“x‚Æ‘¬“x‚Ì‰Šú’l‚ğ¬‚³‚­’²® ---
-	g_Camera.MoveSpeed = 0.03f;          // ‰ŠúˆÚ“®‘¬“x‚ğ’x‚­ (‹Œ: 0.1f)
-	g_Camera.MouseSensitivity = 0.0008f; // ƒ}ƒEƒXŠ´“x‚ğ’á‚­ (‹Œ: 0.002f)
+	// --- ï¿½ï¿½ï¿½xï¿½Æ‘ï¿½ï¿½xï¿½Ìï¿½ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ---
+	g_Camera.MoveSpeed = 0.03f;          // ï¿½ï¿½ï¿½ï¿½ï¿½Ú“ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½xï¿½ï¿½ (ï¿½ï¿½: 0.1f)
+	g_Camera.MouseSensitivity = 0.0008f; // ï¿½}ï¿½Eï¿½Xï¿½ï¿½ï¿½xï¿½ï¿½á‚­ (ï¿½ï¿½: 0.002f)
 }
 
 void	FinalizeCamera()
@@ -53,13 +53,13 @@ void	UpdateCamera()
 
 	static bool isTracking = false;
 	static POINT savedMousePos = { 0, 0 };
-	// --- ’Ç‰ÁF‰EƒNƒŠƒbƒNŠJn‚ÌÅ‰‚ÌƒtƒŒ[ƒ€‚©‚ğ”»’è‚·‚éƒtƒ‰ƒO ---
+	// --- ï¿½Ç‰ï¿½ï¿½Fï¿½Eï¿½Nï¿½ï¿½ï¿½bï¿½Nï¿½Jï¿½nï¿½ÌÅï¿½ï¿½Ìƒtï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ğ”»’è‚·ï¿½ï¿½tï¿½ï¿½ï¿½O ---
 	static bool isFirstFrame = false;
 
 	ImGuiIO& io = ImGui::GetIO();
 
 	// ==============================
-	// 0. ‰EƒNƒŠƒbƒN‚Ì“ü—Í”»’è (Windows API)
+	// 0. ï¿½Eï¿½Nï¿½ï¿½ï¿½bï¿½Nï¿½Ì“ï¿½ï¿½Í”ï¿½ï¿½ï¿½ (Windows API)
 	// ==============================
 	if (io.WantCaptureKeyboard) return;
 
@@ -70,7 +70,7 @@ void	UpdateCamera()
 		if (!io.WantCaptureMouse)
 		{
 			isTracking = true;
-			isFirstFrame = true; // --- Å‰‚ÌƒtƒŒ[ƒ€‚Å‚ ‚é‚±‚Æ‚ğ‹L˜^ ---
+			isFirstFrame = true; // --- ï¿½Åï¿½ï¿½Ìƒtï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Å‚ï¿½ï¿½é‚±ï¿½Æ‚ï¿½ï¿½Lï¿½^ ---
 			GetCursorPos(&savedMousePos);
 			ShowCursor(FALSE);
 		}
@@ -83,7 +83,7 @@ void	UpdateCamera()
 	}
 
 	// ==============================
-	// 1. ƒ}ƒEƒXƒXƒNƒ[ƒ‹‚É‚æ‚é‘¬“x•ÏXi’†—ªj
+	// 1. ï¿½}ï¿½Eï¿½Xï¿½Xï¿½Nï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½É‚ï¿½é‘¬ï¿½xï¿½ÏXï¿½iï¿½ï¿½ï¿½ï¿½ï¿½j
 	// ==============================
 	int wheelDelta = GetMouseWheelDelta();
 	if (wheelDelta != 0)
@@ -99,7 +99,7 @@ void	UpdateCamera()
 	}
 
 	// ==============================
-	// 2. ƒ}ƒEƒX‚É‚æ‚é‹“_‘€ìi‰EƒNƒŠƒbƒN’†‚Ì‚İÀsj
+	// 2. ï¿½}ï¿½Eï¿½Xï¿½É‚ï¿½é‹ï¿½_ï¿½ï¿½ï¿½ï¿½iï¿½Eï¿½Nï¿½ï¿½ï¿½bï¿½Nï¿½ï¿½ï¿½Ì‚İï¿½ï¿½sï¿½j
 	// ==============================
 	float mouseMoveX = 0.0f;
 	float mouseMoveY = 0.0f;
@@ -112,25 +112,25 @@ void	UpdateCamera()
 		POINT currentPos;
 		GetCursorPos(&currentPos);
 
-		// Å‰‚ÌƒtƒŒ[ƒ€‚¾‚¯‚ÍA‰æ–Ê’†‰›‚Ö‚Ì‹­§ƒ[ƒv‚ğs‚¤‚¾‚¯‚Å
-		// ˆÚ“®—Ê‚ÌŒvZi‹“_‚Ì‰ñ“]j‚ğƒXƒLƒbƒv‚·‚é
+		// ï¿½Åï¿½ï¿½Ìƒtï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÍAï¿½ï¿½Ê’ï¿½ï¿½ï¿½ï¿½Ö‚Ì‹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½vï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		// ï¿½Ú“ï¿½ï¿½Ê‚ÌŒvï¿½Zï¿½iï¿½ï¿½ï¿½_ï¿½Ì‰ï¿½]ï¿½jï¿½ï¿½ï¿½Xï¿½Lï¿½bï¿½vï¿½ï¿½ï¿½ï¿½
 		if (isFirstFrame)
 		{
 			mouseMoveX = 0.0f;
 			mouseMoveY = 0.0f;
-			isFirstFrame = false; // 2ƒtƒŒ[ƒ€–ÚˆÈ~‚Ì‚½‚ß‚É‰ğœ
+			isFirstFrame = false; // 2ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ÚˆÈ~ï¿½Ì‚ï¿½ï¿½ß‚É‰ï¿½ï¿½ï¿½
 		}
 		else
 		{
-			// 2ƒtƒŒ[ƒ€–ÚˆÈ~‚ÍAí‚É’†‰›‚©‚ç‚ÌˆÚ“®—Ê‚ğ³‚µ‚­ŒvZ
+			// 2ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ÚˆÈ~ï¿½ÍAï¿½ï¿½É’ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÚ“ï¿½ï¿½Ê‚ğ³‚ï¿½ï¿½ï¿½ï¿½vï¿½Z
 			mouseMoveX = (float)(currentPos.x - centerX);
 			mouseMoveY = (float)(currentPos.y - centerY);
 		}
 
-		// –ˆƒtƒŒ[ƒ€’†S‚ÉŒÅ’è
+		// ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Sï¿½ÉŒÅ’ï¿½
 		SetCursorPos(centerX, centerY);
 
-		// Šp“x‚ÌXV
+		// ï¿½pï¿½xï¿½ÌXï¿½V
 		g_Camera.Yaw += mouseMoveX * g_Camera.MouseSensitivity;
 		g_Camera.Pitch -= mouseMoveY * g_Camera.MouseSensitivity;
 
@@ -138,7 +138,7 @@ void	UpdateCamera()
 		if (g_Camera.Pitch < -XM_PIDIV2 + 0.01f) g_Camera.Pitch = -XM_PIDIV2 + 0.01f;
 	}
 
-	// ’‹“_ŒvZ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½_ï¿½vï¿½Z
 	float cosPitch = cosf(g_Camera.Pitch);
 	XMFLOAT3 lookDir = XMFLOAT3(
 		cosPitch * sinf(g_Camera.Yaw),
@@ -152,7 +152,7 @@ void	UpdateCamera()
 	);
 
 	// ==============================
-	// 3. ƒL[ƒ{[ƒh‚É‚æ‚éˆÚ“®ˆ—i’†—ªj
+	// 3. ï¿½Lï¿½[ï¿½{ï¿½[ï¿½hï¿½É‚ï¿½ï¿½Ú“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½ï¿½ï¿½j
 	// ==============================
 	if (isTracking)
 	{
@@ -197,9 +197,9 @@ void	UpdateCamera()
 	}
 }
 
-void	DrawCamera()//3Dg—p
+void	DrawCamera()//3Dï¿½gï¿½pï¿½ï¿½
 {
-	////ƒvƒƒWƒFƒNƒVƒ‡ƒ“s—ñ‚ğì¬
+	////ï¿½vï¿½ï¿½ï¿½Wï¿½Fï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ì¬
 	//XMMATRIX	ProjectionMatrix =
 	//	XMMatrixPerspectiveFovLH(
 	//		XMConvertToRadians(g_Camera.Fov),
@@ -207,22 +207,22 @@ void	DrawCamera()//3Dg—p
 	//		g_Camera.Nearclip,
 	//		g_Camera.Farclip
 	//	);
-	////ƒvƒƒWƒFƒNƒVƒ‡ƒ“s—ñ‚ğƒZƒbƒg
+	////ï¿½vï¿½ï¿½ï¿½Wï¿½Fï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½Zï¿½bï¿½g
 	//SetProjectionMatrix(ProjectionMatrix);
 
-	////ƒJƒƒ‰s—ñ‚ğì¬
+	////ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ì¬
 	//XMVECTOR	eyev = XMLoadFloat3(&g_Camera.AtPosition);
 	//XMVECTOR	pos = XMLoadFloat3(&g_Camera.Position);
 	//XMVECTOR	up = XMLoadFloat3(&g_Camera.UpVector);
 	//XMMATRIX	ViewMatrix =
 	//	XMMatrixLookAtLH(pos, eyev, up);
 
-	////ƒJƒƒ‰s—ñ‚ğƒZƒbƒg
+	////ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½Zï¿½bï¿½g
 	//SetViewMatrix(ViewMatrix);
-	////ƒJƒƒ‰À•WƒZƒbƒg
+	////ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½Zï¿½bï¿½g
 	//SetCameraPosition(g_Camera.Position);
 
-	// ƒvƒƒWƒFƒNƒVƒ‡ƒ“s—ñ‚ğì¬
+	// ï¿½vï¿½ï¿½ï¿½Wï¿½Fï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ì¬
 	XMMATRIX ProjectionMatrix =
 		XMMatrixPerspectiveFovLH(
 			XMConvertToRadians(g_Camera.Fov),
@@ -230,19 +230,19 @@ void	DrawCamera()//3Dg—p
 			g_Camera.Nearclip,
 			g_Camera.Farclip
 		);
-	// ƒvƒƒWƒFƒNƒVƒ‡ƒ“s—ñ‚ğƒZƒbƒg
+	// ï¿½vï¿½ï¿½ï¿½Wï¿½Fï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½Zï¿½bï¿½g
 	SetProjectionMatrix(ProjectionMatrix);
 
-	// ƒJƒƒ‰s—ñ‚ğì¬
+	// ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ì¬
 	XMVECTOR eyev = XMLoadFloat3(&g_Camera.Position);
 	XMVECTOR pos = XMLoadFloat3(&g_Camera.AtPosition);
 	XMVECTOR up = XMLoadFloat3(&g_Camera.UpVector);
 	XMMATRIX ViewMatrix =
-		XMMatrixLookAtLH(eyev, pos, up); // ‘æˆêˆø”‚Æ‘æ“ñˆø”‚ğ‹t“]‚³‚¹‚Ä‚¢‚Ü‚·
+		XMMatrixLookAtLH(eyev, pos, up); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½Ü‚ï¿½
 
-	// ƒJƒƒ‰s—ñ‚ğƒZƒbƒg
+	// ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½Zï¿½bï¿½g
 	SetViewMatrix(ViewMatrix);
-	// ƒJƒƒ‰À•WƒZƒbƒg
+	// ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½Zï¿½bï¿½g
 	SetCameraPosition(g_Camera.Position);
 }
 
