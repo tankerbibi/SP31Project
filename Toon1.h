@@ -1,6 +1,6 @@
 ﻿/*==============================================================================
 
-   [CookTorrance.h]
+   [Toon1.h]
 														 Author :
 														 Date   :
 --------------------------------------------------------------------------------
@@ -23,7 +23,7 @@
 ////////////////
 
 
-class CookTorrance
+class Toon1
 {
 protected:
 	XMFLOAT3	Position;
@@ -36,10 +36,12 @@ protected:
 	ID3D11InputLayout* VertexLayout; //頂点レイアウトオブジェクト
 
 	LIGHT light;
+
 	XMFLOAT4 Parameter;
 
-
 	MODEL* Model;
+
+
 
 public:
 

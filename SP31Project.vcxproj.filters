@@ -122,14 +122,17 @@
     <ClCompile Include="DisneyPBR.cpp">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClCompile>
-    <ClCompile Include="Building.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="DioramaFloor.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Toon1.cpp">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClCompile>
     <ClCompile Include="Pedestal.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    </ClCompile>
+    <ClCompile Include="DioramaFloor.cpp">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    </ClCompile>
+    <ClCompile Include="Building.cpp">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -229,17 +232,20 @@
     <ClInclude Include="CookTorrance.h">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClInclude>
-    <ClInclude Include="DisneyPBR.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Toon1.h">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClInclude>
     <ClInclude Include="Building.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClInclude>
     <ClInclude Include="DioramaFloor.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    </ClInclude>
+    <ClInclude Include="DisneyPBR.h">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClInclude>
     <ClInclude Include="Pedestal.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -325,6 +331,12 @@
       <Filter>ソース ファイル\shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\DisneyPBRPS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\Toon1PS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\Toon1VS.hlsl">
       <Filter>ソース ファイル\shader</Filter>
     </FxCompile>
   </ItemGroup>

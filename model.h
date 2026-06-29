@@ -1,7 +1,7 @@
 #pragma once
 //#define NOMINMAX
 #include <unordered_map>
-
+#include "main.h"
 #include "assimp/cimport.h"
 #include "assimp/scene.h"
 #include "assimp/postprocess.h"

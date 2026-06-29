@@ -3,10 +3,10 @@
 
 
 //#include "directx.h"
-#include "texture.h"
 #include "model.h"
-
 #include "renderer.h"
+#include "texture.h"
+
 
 
 
