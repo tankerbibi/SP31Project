@@ -349,6 +349,7 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 
 	g_D3DDevice->CreateBuffer(&hBufferDesc, NULL, &g_ParameterBuffer);
 	g_ImmediateContext->PSSetConstantBuffers(6, 1, &g_ParameterBuffer);
+	g_ImmediateContext->VSSetConstantBuffers(6, 1, &g_ParameterBuffer);
 
 	MATERIAL material;
 	ZeroMemory(&material, sizeof(material));
@@ -460,5 +461,23 @@ void CreatePixelShader(ID3D11PixelShader** PixelShader, const char* FileName)
 void SetLight(LIGHT Light)
 {
 	g_ImmediateContext->UpdateSubresource(g_LightBuffer, 0, NULL, &Light, 0, 0);
+}
+
+void SetCullMode(D3D11_CULL_MODE cull)
+{
+	CD3D11_RASTERIZER_DESC rd;
+	ZeroMemory(&rd, sizeof(rd));
+	// _WIREFRAME
+	rd.FillMode = D3D11_FILL_SOLID;
+	rd.DepthClipEnable = FALSE;
+	rd.MultisampleEnable = FALSE;
+	rd.CullMode = cull;
+	// 構造値からラスタライザオブジェクトを作成
+	ID3D11RasterizerState* rs;
+	g_D3DDevice->CreateRasterizerState(&rd, &rs);
+	// ラスタライザオブジェクトをセット
+	g_ImmediateContext->RSSetState(rs);
+	// オブジェクトをリリース
+	rs->Release();
 }
 

@@ -30,11 +30,11 @@
 HRESULT Sprite2D::Init(void)
 {
 	// テクスチャ読み込み
-	int Texture = TextureLoad(L"asset\\texture\\texture.jpg");
+	int Texture = TextureLoad(L"asset\\texture\\Toon2.png");
 
 	//シェーダー読み込み
-	CreateVertexShader(&VertexShader, &VertexLayout, "GrayscaleVS.cso");
-	CreatePixelShader(&PixelShader, "GrayscalePS.cso");
+	CreateVertexShader(&VertexShader, &VertexLayout, "UnlitTextureVS.cso");
+	CreatePixelShader(&PixelShader, "UnlitTexturePS.cso");
 
 	//2Dオブジェクト初期化
 	Position = XMFLOAT3(SCREEN_WIDTH / 3 / 2, SCREEN_HEIGHT / 3 / 2, 0.0f);

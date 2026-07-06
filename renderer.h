@@ -71,3 +71,5 @@ void CreateVertexShader(ID3D11VertexShader** VertexShader, ID3D11InputLayout** V
 void CreatePixelShader(ID3D11PixelShader** PixelShader, const char* FileName);
 
 void SetLight(LIGHT Light);
+
+void SetCullMode(D3D11_CULL_MODE cull);

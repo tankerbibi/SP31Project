@@ -1,6 +1,7 @@
 #include "Common.hlsl"
 
 Texture2D g_Texture : register(t0);
+Texture2D g_TextureRamp : register(t1);
 // テクスチャを取り出してくるハードウェア
 SamplerState g_Sampler : register(s0);
 
@@ -21,31 +22,29 @@ void main(in PS_IN In, out float4 outDiffuse : SV_TARGET)
     float4 normal = normalize(In.Normal);
     // 光源計算
     float light = -dot(normal.xyz, lv.xyz);
-    // lightをサチュレート
-    light = saturate(light);
+    // lightをクランプ テクスチャ座標(U)
+    light = clamp(light, 0.01f, 0.99f) + Parameter.y;
+
+    float texv = Parameter.x;
+    // テクスチャ座標Y座標をクランプ
+    texv = clamp(texv, 0.01f, 0.99f);
+    // テクスチャから明るさを取得
+    float4 toon = g_TextureRamp.Sample(g_Sampler, float2(light, texv));
+    // 明るさを減算する
+    toon *= ofs;
     
-    // 明るさの調整
-    if(light > Parameter.y)
-    {
-        light = 1.0f;
-    }
-    else if(light.x > Parameter.x)
-    {
-        light = 0.7f;
-    }
-    else
-    {
-        light = 0.4f;
-    }
-    
-    
-    // 明るさを減衰する
-    light *= ofs;
-    // テクセルを取得
+    //　テクスチャから入りを取得
     outDiffuse = g_Texture.Sample(g_Sampler, In.TexCoord);
-    // テクセルに明るさを乗算する(aはかけちゃダメ。なぜなら、aは色ではないから。)
-    outDiffuse.rgb *= In.Diffuse.rgb * Light.Diffuse.rgb * light + Light.Ambient.rgb;
-    outDiffuse.a *= In.Diffuse.a;
+    outDiffuse.rgb *= toon.rgb * In.Diffuse.rgb * Light.Diffuse.rgb + Light.Ambient.rgb;
+    outDiffuse.a *= In.Diffuse;
+    
+    //// 明るさを減衰する
+    //light *= ofs;
+    //// テクセルを取得
+    //outDiffuse = g_Texture.Sample(g_Sampler, In.TexCoord);
+    //// テクセルに明るさを乗算する(aはかけちゃダメ。なぜなら、aは色ではないから。)
+    //outDiffuse.rgb *= In.Diffuse.rgb * Light.Diffuse.rgb * light + Light.Ambient.rgb;
+    //outDiffuse.a *= In.Diffuse.a;
     ///////////////////////////////////////////
     //　簡易エッジを作成
     float4 eyev = In.WorldPosition - CameraPosition;

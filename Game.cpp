@@ -13,6 +13,8 @@
 #include "Pedestal.h"
 #include "DioramaFloor.h"
 #include "Toon1.h"
+#include "Toon2.h"
+#include "Toon3.h"
 
 Camera       CameraObject;
 Sprite2D     Test2d;
@@ -22,6 +24,8 @@ Building     BuildingObj;
 Pedestal     PedestalObj;
 DioramaFloor DioramaFloorObj;
 Toon1 toon1;
+Toon2 toon2;
+Toon3 toon3;
 
 static LIGHT Light;
 static bool  pause = false;
@@ -40,6 +44,8 @@ void InitGame()
     PedestalObj.Init();
     DioramaFloorObj.Init();
     toon1.Init();
+    toon2.Init();
+    toon3.Init();
 
 
     XMVECTOR dir = XMVector4Normalize(XMVectorSet(0.3f, -1.0f, 0.5f, 0.0f));
@@ -59,6 +65,8 @@ void FinalizeGame()
     PedestalObj.Finalize();
     DioramaFloorObj.Finalize();
     toon1.Finalize();
+    toon2.Finalize();
+    toon3.Finalize();
     TextureFinalize();
 }
 
@@ -73,6 +81,8 @@ void UpdateGame()
         PedestalObj.Update();
         DioramaFloorObj.Update();
         toon1.Update();
+        toon2.Update();
+        toon3.Update();
     }
 
     ImGui::Begin("Global Light");
@@ -89,8 +99,7 @@ void UpdateGame()
 
 void DrawGame()
 {
-    SetWorldViewProjection2D();
-    //Test2d.Draw();
+
 
     SetDepthEnable(true);
     DrawCamera();
@@ -100,5 +109,10 @@ void DrawGame()
     BuildingObj.Draw();
     PedestalObj.Draw();
     WolfObj.Draw();
-    toon1.Draw();
+    //toon1.Draw();
+    //toon2.Draw();
+    toon3.Draw();
+
+    SetWorldViewProjection2D();
+    Test2d.Draw();
 }
