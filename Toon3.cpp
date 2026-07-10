@@ -38,14 +38,15 @@ HRESULT Toon3::Init(void)
 	//シェーダー読み込み
 	CreateVertexShader(&VertexShader, &VertexLayout, "Toon2VS.cso");
 	CreatePixelShader(&PixelShader, "Toon2PS.cso");
+
 	CreateVertexShader(&VertexEdgeShader, &VertexEdgeLayout, "ToonVSEdge.cso");
-	CreatePixelShader(&PixelEdgeShader, "Toon2PSEdge.cso");
+	CreatePixelShader(&PixelEdgeShader, "ToonPSEdge.cso");
 
 
 	
 
 	//3Dオブジェクト管理構造体の初期化
-	Position = XMFLOAT3(0.0f + 0.5f * 0, 0.3f, 0.0f);
+	Position = XMFLOAT3(0.0f + 0.5f * 1, 0.3f, 0.0f);
 	Rotate = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	Scale = XMFLOAT3(0.2f, 0.2f, 0.2f);
 
@@ -66,6 +67,8 @@ HRESULT Toon3::Init(void)
 
 	Parameter = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
 	Parameter.x = 0.5f;
+	Parameter.y = 0.0f;
+	Parameter.z = 0.3f;
 
 	TexID = TextureLoad(L"asset\\texture\\Toon2.png");
 
@@ -181,17 +184,28 @@ void Toon3::Draw(void)
 			D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST
 		);
 
+		MATERIAL material;
+		ZeroMemory(&material, sizeof(MATERIAL));
+		material.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+		SetMaterial(material);
+
 		//描画
 		ModelDraw(Model);
 	}
 
 	// ここからエッジモデルの描画
-	
 	// エッジ用シェーダーのセット
-
+	// 頂点レイアウト設定
+	GetDeviceContext()->IASetInputLayout(VertexEdgeLayout);
+	// 頂点シェーダーをセット
+	GetDeviceContext()->VSSetShader(VertexEdgeShader, NULL, 0);
+	// ピクセルシェーダーをセット
+	GetDeviceContext()->PSSetShader(PixelEdgeShader, NULL, 0);
 	// カリングの切り替え
-	
+	SetCullMode(D3D11_CULL_MODE::D3D11_CULL_FRONT);
 	// エッジモデルの描画
+	ModelDraw(Model);
 
 	// カリングの切り替え
+	SetCullMode(D3D11_CULL_MODE::D3D11_CULL_BACK);
 }

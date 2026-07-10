@@ -39,6 +39,9 @@ class Wolf
 
 		MODEL* Model;
 
+		XMFLOAT4 Parameter;
+
+
 	public:
 
 		HRESULT Init(void);

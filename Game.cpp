@@ -109,7 +109,7 @@ void DrawGame()
     BuildingObj.Draw();
     PedestalObj.Draw();
     WolfObj.Draw();
-    //toon1.Draw();
+    toon1.Draw();
     //toon2.Draw();
     toon3.Draw();
 
