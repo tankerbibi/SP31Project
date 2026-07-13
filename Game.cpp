@@ -100,7 +100,7 @@ void UpdateGame()
 void DrawGame()
 {
 
-
+    BeginPe();
     SetDepthEnable(true);
     DrawCamera();
     SetLight(Light);
@@ -113,6 +113,7 @@ void DrawGame()
     //toon2.Draw();
     toon3.Draw();
 
+    Clear();
     SetWorldViewProjection2D();
     Test2d.Draw();
 }

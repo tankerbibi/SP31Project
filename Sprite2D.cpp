@@ -44,6 +44,8 @@ HRESULT Sprite2D::Init(void)
 	Rotate = 0.0f;
 	TexID = Texture;
 
+	Parameter = XMFLOAT4(0, 0, 0, 0);
+
 	return S_OK;
 }
 
@@ -63,7 +65,12 @@ void Sprite2D::Finalize(void)
 //=============================================================================
 void Sprite2D::Update(void)
 {
-
+	ImGui::SetNextWindowSize(ImVec2(300, 500), ImGuiCond_FirstUseEver);
+	ImGui::Begin("MIPMAP");
+	{
+		ImGui::SliderFloat("MIPMAP Level", &Parameter.x, 0.0f, 7.0f, "%.0f");
+	}
+	ImGui::End();
 
 }
 
@@ -88,11 +95,12 @@ void Sprite2D::Draw(void)
 	ZeroMemory(&material, sizeof(material));
 	material.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	SetMaterial(material);
+	SetParameter(Parameter);
 
 	{//2Dポリゴン1枚ずつで必要な処理
 
 		//テクスチャをセット
-		ID3D11ShaderResourceView* tex = GetTexture(TexID);
+		ID3D11ShaderResourceView* tex = GetPeTexture(TexID);
 		GetDeviceContext()->PSSetShaderResources(0, 1, &tex);
 
 		//平行移動行列の作成（表示座標を決める）
@@ -111,6 +119,7 @@ void Sprite2D::Draw(void)
 		//ワールド行列をDirectXへセット
 		SetWorldMatrix(WorldMatrix);
 
+		GetDeviceContext()->GenerateMips(tex);
 		// ポリゴン描画
 		DrawSprite(Size, Color);
 	}

@@ -34,13 +34,13 @@ class Sprite2D
 		ID3D11PixelShader* PixelShader; //ピクセルシェーダーオブジェクト
 		ID3D11InputLayout* VertexLayout; //頂点レイアウトオブジェクト
 
+		XMFLOAT4 Parameter;
+
 	public:
 		HRESULT Init(void);
 		void Finalize(void);
 		void Update(void);
 		void Draw(void);
-
-
 
 };
 

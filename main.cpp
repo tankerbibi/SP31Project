@@ -292,7 +292,7 @@ void	Update(void)
 void	Draw(void)
 {
 	//バックバッファのクリア
-	Clear();
+	//Clear();
 	//マネージャ描画
 	DrawManager();
 
