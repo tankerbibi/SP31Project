@@ -15,6 +15,7 @@
 #include "Toon1.h"
 #include "Toon2.h"
 #include "Toon3.h"
+#include "Mosaic.h"
 
 Camera       CameraObject;
 Sprite2D     Test2d;
@@ -26,6 +27,7 @@ DioramaFloor DioramaFloorObj;
 Toon1 toon1;
 Toon2 toon2;
 Toon3 toon3;
+Mosaic MosaicObject;
 
 static LIGHT Light;
 static bool  pause = false;
@@ -46,6 +48,7 @@ void InitGame()
     toon1.Init();
     toon2.Init();
     toon3.Init();
+	MosaicObject.Init();
 
 
     XMVECTOR dir = XMVector4Normalize(XMVectorSet(0.3f, -1.0f, 0.5f, 0.0f));
@@ -67,6 +70,7 @@ void FinalizeGame()
     toon1.Finalize();
     toon2.Finalize();
     toon3.Finalize();
+    MosaicObject.Finalize();
     TextureFinalize();
 }
 
@@ -83,6 +87,7 @@ void UpdateGame()
         toon1.Update();
         toon2.Update();
         toon3.Update();
+        MosaicObject.Update();
     }
 
     ImGui::Begin("Global Light");
@@ -100,7 +105,7 @@ void UpdateGame()
 void DrawGame()
 {
 
-    BeginPe();
+    BeginPe();  // レンダリングテクスチャへ描くようにする
     SetDepthEnable(true);
     DrawCamera();
     SetLight(Light);
@@ -113,7 +118,8 @@ void DrawGame()
     //toon2.Draw();
     toon3.Draw();
 
-    Clear();
-    SetWorldViewProjection2D();
+    Clear();  // デフォルトのレンダリングターゲットへ戻す
+    SetWorldViewProjection2D();  // 2D用マトリクス設定
     Test2d.Draw();
+    MosaicObject.Draw();  // 最後にレンダリングテクスチャを描く
 }
