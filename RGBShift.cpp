@@ -1,12 +1,12 @@
 /*==============================================================================
 
-   頂点管理 [Mosaic.cpp]
+   頂点管理 [RGBShift.cpp]
 														 Author :
 														 Date   :
 --------------------------------------------------------------------------------
 
 ==============================================================================*/
-#include "Mosaic.h"
+#include "RGBShift.h"
 #include "sprite.h"
 #include "Camera.h"
 #include "texture.h"
@@ -27,11 +27,11 @@
 //=============================================================================
 // 初期化処理
 //=============================================================================
-HRESULT Mosaic::Init(void)
+HRESULT RGBShift::Init(void)
 {
 	//シェーダー読み込み
-	CreateVertexShader(&VertexShader, &VertexLayout, "MosaicVS.cso");
-	CreatePixelShader(&PixelShader, "MosaicPS.cso");
+	CreateVertexShader(&VertexShader, &VertexLayout, "RGBShiftVS.cso");
+	CreatePixelShader(&PixelShader, "RGBShiftPS.cso");
 
 	//2Dオブジェクト初期化
 	Position = XMFLOAT3(SCREEN_WIDTH / 3 / 2, SCREEN_HEIGHT / 3 / 2, 0.0f);
@@ -48,7 +48,7 @@ HRESULT Mosaic::Init(void)
 //=============================================================================
 // 終了処理
 //=============================================================================
-void Mosaic::Finalize(void)
+void RGBShift::Finalize(void)
 {
 	VertexLayout->Release();
 	VertexShader->Release();
@@ -59,13 +59,12 @@ void Mosaic::Finalize(void)
 //=============================================================================
 // 更新処理
 //=============================================================================
-void Mosaic::Update(void)
+void RGBShift::Update(void)
 {
-
-
-	ImGui::Begin("Mosaic");
+	ImGui::Begin("RGBShift");
 	{
-		ImGui::SliderFloat("Size", &Parameter.z, 1.0f, 64.0f, "%0.0f");
+		ImGui::SliderFloat("RShift", &Parameter.x, 0.0f, 0.5f, "%.4f");
+		ImGui::SliderFloat("BShift", &Parameter.y, 0.0f, 0.5f, "%.4f");
 	}
 	ImGui::End();
 
@@ -74,7 +73,7 @@ void Mosaic::Update(void)
 //=============================================================================
 // 描画処理
 //=============================================================================
-void Mosaic::Draw(void)
+void RGBShift::Draw(void)
 {
 
 	// 頂点レイアウト設定

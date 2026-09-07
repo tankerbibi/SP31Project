@@ -16,6 +16,7 @@
 #include "Toon2.h"
 #include "Toon3.h"
 #include "Mosaic.h"
+#include "RGBShift.h"
 
 Camera       CameraObject;
 Sprite2D     Test2d;
@@ -28,6 +29,7 @@ Toon1 toon1;
 Toon2 toon2;
 Toon3 toon3;
 Mosaic MosaicObject;
+RGBShift RGBShiftObject;
 
 static LIGHT Light;
 static bool  pause = false;
@@ -49,7 +51,7 @@ void InitGame()
     toon2.Init();
     toon3.Init();
 	MosaicObject.Init();
-
+    RGBShiftObject.Init();
 
     XMVECTOR dir = XMVector4Normalize(XMVectorSet(0.3f, -1.0f, 0.5f, 0.0f));
     XMStoreFloat4(&Light.Direction, dir);
@@ -71,6 +73,7 @@ void FinalizeGame()
     toon2.Finalize();
     toon3.Finalize();
     MosaicObject.Finalize();
+    RGBShiftObject.Finalize();
     TextureFinalize();
 }
 
@@ -88,6 +91,7 @@ void UpdateGame()
         toon2.Update();
         toon3.Update();
         MosaicObject.Update();
+        RGBShiftObject.Update();
     }
 
     ImGui::Begin("Global Light");
@@ -122,4 +126,5 @@ void DrawGame()
     SetWorldViewProjection2D();  // 2D用マトリクス設定
     Test2d.Draw();
     MosaicObject.Draw();  // 最後にレンダリングテクスチャを描く
+    RGBShiftObject.Draw();
 }
