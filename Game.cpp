@@ -17,6 +17,7 @@
 #include "Toon3.h"
 #include "Mosaic.h"
 #include "RGBShift.h"
+#include "horror.h"
 
 Camera       CameraObject;
 Sprite2D     Test2d;
@@ -30,6 +31,7 @@ Toon2 toon2;
 Toon3 toon3;
 Mosaic MosaicObject;
 RGBShift RGBShiftObject;
+Horror HorrorObject;
 
 static LIGHT Light;
 static bool  pause = false;
@@ -52,6 +54,7 @@ void InitGame()
     toon3.Init();
 	MosaicObject.Init();
     RGBShiftObject.Init();
+    HorrorObject.Init();
 
     XMVECTOR dir = XMVector4Normalize(XMVectorSet(0.3f, -1.0f, 0.5f, 0.0f));
     XMStoreFloat4(&Light.Direction, dir);
@@ -74,6 +77,7 @@ void FinalizeGame()
     toon3.Finalize();
     MosaicObject.Finalize();
     RGBShiftObject.Finalize();
+    HorrorObject.Finalize();
     TextureFinalize();
 }
 
@@ -92,6 +96,7 @@ void UpdateGame()
         toon3.Update();
         MosaicObject.Update();
         RGBShiftObject.Update();
+        HorrorObject.Update();
     }
 
     ImGui::Begin("Global Light");
@@ -127,4 +132,5 @@ void DrawGame()
     Test2d.Draw();
     MosaicObject.Draw();  // 最後にレンダリングテクスチャを描く
     RGBShiftObject.Draw();
+    HorrorObject.Draw();
 }
