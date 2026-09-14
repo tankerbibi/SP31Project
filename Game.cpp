@@ -18,6 +18,8 @@
 #include "Mosaic.h"
 #include "RGBShift.h"
 #include "horror.h"
+#include "Posterize.h"
+#include "StealthModel.h"
 
 Camera       CameraObject;
 Sprite2D     Test2d;
@@ -32,6 +34,8 @@ Toon3 toon3;
 Mosaic MosaicObject;
 RGBShift RGBShiftObject;
 Horror HorrorObject;
+Posterize PosterizeObject;
+StealthModel StealthObject;
 
 static LIGHT Light;
 static bool  pause = false;
@@ -55,6 +59,8 @@ void InitGame()
 	MosaicObject.Init();
     RGBShiftObject.Init();
     HorrorObject.Init();
+    PosterizeObject.Init();
+    //StealthObject.Init();
 
     XMVECTOR dir = XMVector4Normalize(XMVectorSet(0.3f, -1.0f, 0.5f, 0.0f));
     XMStoreFloat4(&Light.Direction, dir);
@@ -78,6 +84,8 @@ void FinalizeGame()
     MosaicObject.Finalize();
     RGBShiftObject.Finalize();
     HorrorObject.Finalize();
+    PosterizeObject.Finalize();
+    //StealthObject.Finalize();
     TextureFinalize();
 }
 
@@ -97,6 +105,8 @@ void UpdateGame()
         MosaicObject.Update();
         RGBShiftObject.Update();
         HorrorObject.Update();
+        PosterizeObject.Update();
+        //StealthObject.Update();
     }
 
     ImGui::Begin("Global Light");
@@ -119,6 +129,7 @@ void DrawGame()
     DrawCamera();
     SetLight(Light);
 
+
     DioramaFloorObj.Draw();
     BuildingObj.Draw();
     PedestalObj.Draw();
@@ -127,10 +138,15 @@ void DrawGame()
     //toon2.Draw();
     toon3.Draw();
 
+
     Clear();  // デフォルトのレンダリングターゲットへ戻す
     SetWorldViewProjection2D();  // 2D用マトリクス設定
     Test2d.Draw();
     MosaicObject.Draw();  // 最後にレンダリングテクスチャを描く
     RGBShiftObject.Draw();
     HorrorObject.Draw();
+    PosterizeObject.Draw();
+
+    //SetDepthEnable(true);
+    //StealthObject.Draw();
 }
