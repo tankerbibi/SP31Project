@@ -42,7 +42,7 @@ HRESULT Posterize::Init(void)
 	Rotate = 0.0f;
 
 	Parameter = XMFLOAT4(64.0f, 0.2f, 0.7f, 1.0f);
-	TexID = TextureLoad(L"asset\\texture\\test 1.jpg");
+	TexID = TextureLoad(L"asset\\texture\\Designer.png");
 
 	return S_OK;
 }
